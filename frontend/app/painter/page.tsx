@@ -33,7 +33,7 @@ const Availability = () => {
           </Link>
         </Button>
       </header>
-      <main className="py-8 px-2 md:px-20 mx-auto">
+      <main className="py-8 px-2 md:px-16 mx-auto">
         <h2 className="font-serif text-2xl font-bold text-gray-800 w-fit mb-8">
           Time slots
         </h2>

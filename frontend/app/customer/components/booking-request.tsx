@@ -1,8 +1,15 @@
-import { Card } from "@/components/ui/card";
-import { Calendar, Clock, UserCircle2, BadgeCheck } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader
+} from "@/components/ui/card";
+import { formatDate } from "date-fns";
+import { Calendar, Clock, PaintRollerIcon } from "lucide-react";
+import { CancelRequestModal } from "./cancel-request";
 
 interface BookingRequestCardProps {
-  bookingId: string;
+  id: string;
   painter: { id: string; name: string } | null;
   startTime: string;
   endTime: string;
@@ -17,7 +24,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function BookingRequestCard({
-  bookingId,
+  id,
   painter,
   startTime,
   endTime,
@@ -27,56 +34,39 @@ export default function BookingRequestCard({
   const end = new Date(endTime);
 
   return (
-    <Card>
-      <div className="flex items-center gap-3">
-        <UserCircle2 className="w-8 h-8 text-blue-400" />
-        <div>
-          <div className="font-serif font-bold text-gray-900">
-            {painter?.name || "Unassigned"}
-          </div>
-          <div className="text-xs text-gray-400">Painter</div>
+    <Card className="w-64">
+      <CardHeader className="flex flex-row items-center space-x-3 py-4">
+        <div className="p-2 w-fit bg-green-100 rounded-full group-hover:bg-green-200 transition-colors">
+          <PaintRollerIcon className="w-6 h-6 text-green-600" />
         </div>
-      </div>
-
-      <div className="flex items-center gap-2 text-gray-700">
-        <Calendar className="w-4 h-4" />
-        <span className="font-sans text-sm">
-          {start.toLocaleDateString(undefined, {
-            weekday: "short",
-            month: "short",
-            day: "numeric",
-            year: "numeric"
-          })}
-        </span>
-      </div>
-      <div className="flex items-center gap-2 text-gray-700">
-        <Clock className="w-4 h-4" />
-        <span className="font-sans text-sm">
-          {start.toLocaleTimeString(undefined, {
-            hour: "2-digit",
-            minute: "2-digit"
-          })}{" "}
-          -{" "}
-          {end.toLocaleTimeString(undefined, {
-            hour: "2-digit",
-            minute: "2-digit"
-          })}
-        </span>
-      </div>
-
-      <div className="flex items-center gap-2 mt-2">
+        <p className="font-serif font-bold text-gray-900">
+          {painter?.name || "Unassigned"}
+        </p>
+      </CardHeader>
+      <CardContent className="space-y-2 pb-4 pt-0">
+        <div className="flex items-center space-x-2 text-gray-700">
+          <Calendar className="w-4 h-4" />
+          <span className="font-sans text-sm">
+            {formatDate(start, "EEEE, do MMM, yyyy")}
+          </span>
+        </div>
+        <div className="flex items-center space-x-2 text-gray-700">
+          <Clock className="w-4 h-4" />
+          <span className="font-sans text-sm">
+            {formatDate(start, "hh:mm a")} - {formatDate(end, "hh:mm a")}
+          </span>
+        </div>
+      </CardContent>
+      <CardFooter className="flex justify-between items-center space-x-2 mt-2">
         <span
           className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold capitalize ${
             statusColors[status] || "bg-gray-100 text-gray-700"
           }`}
         >
-          <BadgeCheck className="w-4 h-4 mr-1" />
           {status}
         </span>
-        <span className="ml-auto text-xs text-gray-400">
-          ID: {bookingId.slice(0, 8)}…
-        </span>
-      </div>
+        <CancelRequestModal id={id} />
+      </CardFooter>
     </Card>
   );
 }

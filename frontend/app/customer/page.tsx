@@ -34,7 +34,7 @@ const BookingRequests = () => {
           </Link>
         </Button>
       </header>
-      <main className="py-8 px-2 md:px-20 mx-auto">
+      <main className="py-8 px-2 md:px-16 mx-auto">
         <h2 className="font-serif text-2xl font-bold text-gray-800 w-fit mb-8">
           Requests
         </h2>
@@ -42,7 +42,7 @@ const BookingRequests = () => {
           {[1, 2, 3].map(t => (
             <BookingRequestCard
               key={t}
-              bookingId={`booking_${t}`}
+              id={`booking_${t}`}
               painter={{ id: `painter_${t}`, name: `Painter ${t}` }}
               startTime={new Date().toISOString()}
               endTime={new Date().toISOString()}
