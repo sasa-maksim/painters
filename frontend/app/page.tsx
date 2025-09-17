@@ -18,7 +18,7 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center mt-16">
             <Link
-              href="/register/customer"
+              href="/customer/register"
               className="group bg-white hover:bg-green-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-green-300 cursor-pointer size-[280px]"
             >
               <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center group-hover:bg-green-200 transition-colors">
@@ -34,7 +34,7 @@ export default function Home() {
             </Link>
 
             <Link
-              href="/register/painter"
+              href="/painter/register"
               className="group bg-white hover:bg-amber-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-amber-300 cursor-pointer size-[280px]"
             >
               <div className="p-4 w-fit mx-auto mb-4 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors">

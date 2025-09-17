@@ -14,11 +14,12 @@ module.exports = {
         extend: {
           fontFamily: {
             serif: ["var(--font-pt-serif)", "serif"],
-            sans: ["var(--font-noto-sans)", "sans-serif"]
+            sans: ["var(--font-noto-sans)", "sans-serif"],
+            mono: ["var(--font-pt-mono)", "sans-serif"]
           }
         }
       }
     }
   },
-  plugins: []
+  plugins: [require("tailwindcss-animate")]
 };

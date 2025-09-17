@@ -1,0 +1,51 @@
+import PasswordField from "@/components/form/password-field";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
+
+const PainterRegisterForm = () => {
+  return (
+    <Card className="w-full max-w-sm">
+      <CardContent className="p-6">
+        <form>
+          <div className="flex flex-col space-y-6">
+            <div className="flex flex-col items-start space-y-2 font-mono">
+              <Label htmlFor="first_name">First name</Label>
+              <Input id="first_name" type="text" placeholder="John" required />
+            </div>
+            <div className="flex flex-col items-start space-y-2 font-mono">
+              <Label htmlFor="last_name">Last name</Label>
+              <Input id="last_name" type="text" placeholder="John" required />
+            </div>
+            <div className="flex flex-col items-start space-y-2 font-mono">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="john@example.com"
+                required
+              />
+            </div>
+            <PasswordField />
+          </div>
+          <Button className="w-full mt-6">Sign up</Button>
+        </form>
+      </CardContent>
+      <CardFooter className="flex-col gap-2">
+        <p>
+          Already have an account?{" "}
+          <Link
+            href="/painter/login"
+            className="text-sm text-blue-700 underline-offset-4 hover:underline"
+          >
+            Login
+          </Link>
+        </p>
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default PainterRegisterForm;
