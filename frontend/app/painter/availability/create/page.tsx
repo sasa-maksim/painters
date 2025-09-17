@@ -20,8 +20,8 @@ const CreateAvailability = () => {
           Add availability time slot
         </h1>
         <p className="font-sans text-gray-600 mb-8"></p>
-        <Card className="w-full mx-auto max-w-sm">
-          <CardContent className="p-6">
+        <Card className="w-full mx-auto max-w-sm border-none sm:border shadow-none sm:drop-shadow-sm">
+          <CardContent className="p-2 sm:p-6">
             <AvailabilityForm />
           </CardContent>
         </Card>
