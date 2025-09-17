@@ -1,5 +1,14 @@
 import TimeSlot from "@/components/dashboard/time-slot";
 import { Button } from "@/components/ui/button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from "@/components/ui/pagination";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -15,11 +24,14 @@ const Availability = () => {
             Manage your available time slots
           </p>
         </div>
-        <Link href="/painter/availability/create">
-          <Button className="bg-amber-600 hover:bg-amber-700 active:bg-amber-800 transition-colors">
+        <Button
+          asChild
+          className="bg-amber-600 hover:bg-amber-700 active:bg-amber-800 transition-colors"
+        >
+          <Link href="/painter/availability/create">
             <PlusIcon /> Add Availability slot
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </header>
       <main className="py-8 px-2 md:px-20 mx-auto">
         <h2 className="font-serif text-2xl font-bold text-gray-800 w-fit mb-8">
@@ -33,6 +45,24 @@ const Availability = () => {
               end_time={new Date().toISOString()}
             />
           ))}
+        </div>
+        <div className="my-8">
+          <Pagination className="sm:justify-start">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </main>
     </>
