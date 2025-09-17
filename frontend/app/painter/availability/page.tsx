@@ -41,6 +41,7 @@ const Availability = () => {
           {[1, 2, 3].map(t => (
             <TimeSlot
               key={t}
+              id={t.toString()}
               start_time={new Date().toISOString()}
               end_time={new Date().toISOString()}
             />

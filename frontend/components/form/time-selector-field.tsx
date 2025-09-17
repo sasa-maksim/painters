@@ -11,14 +11,28 @@ import { Input } from "../ui/input";
 interface TimeSelectorFieldProps {
   legend: string;
   name: string;
+  initialValue?: string;
 }
 
-const TimeSelectorField = ({ legend, name }: TimeSelectorFieldProps) => {
+const TimeSelectorField = ({
+  legend,
+  name,
+  initialValue
+}: TimeSelectorFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(date.getTime());
   const [defaultTimeString] = date.toTimeString().split(" ");
+
+  useEffect(() => {
+    if (initialValue) {
+      const initialDate = new Date(initialValue);
+
+      setDate(initialDate);
+      setTime(initialDate.getTime());
+    }
+  }, [initialValue]);
 
   useEffect(() => {
     if (time) {

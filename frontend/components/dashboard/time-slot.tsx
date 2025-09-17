@@ -2,13 +2,16 @@ import { ClockIcon, EditIcon, Trash2Icon } from "lucide-react";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { formatDate, intervalToDuration } from "date-fns";
+import { EditAvailabilityModal } from "@/app/painter/availability/modals/edit-availability";
+import { DeleteAvailabilityModal } from "@/app/painter/availability/modals/delete-availability";
 
 interface TimeSlotProps {
+  id: string;
   start_time: string;
   end_time: string;
 }
 
-const TimeSlot = ({ start_time, end_time }: TimeSlotProps) => {
+const TimeSlot = ({ id, start_time, end_time }: TimeSlotProps) => {
   const startDate = new Date(start_time);
   const endDate = new Date(end_time);
   endDate.setHours(endDate.getHours() + 15);
@@ -45,14 +48,9 @@ const TimeSlot = ({ start_time, end_time }: TimeSlotProps) => {
           </div>
         </div>
       </CardContent>
-
       <CardFooter className="flex justify-end space-x-2 py-4">
-        <Button variant="outline" size="sm" className="shadow-none">
-          <EditIcon />
-        </Button>
-        <Button variant="outline" size="sm" className="shadow-none">
-          <Trash2Icon />
-        </Button>
+        <EditAvailabilityModal startDate={startDate} endDate={endDate} />
+        <DeleteAvailabilityModal id={id} />
       </CardFooter>
     </Card>
   );
