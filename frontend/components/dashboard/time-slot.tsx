@@ -1,9 +1,8 @@
-import { ClockIcon, EditIcon, Trash2Icon } from "lucide-react";
+import { ClockIcon } from "lucide-react";
 import { Card, CardContent, CardFooter } from "../ui/card";
-import { Button } from "../ui/button";
 import { formatDate, intervalToDuration } from "date-fns";
-import { EditAvailabilityModal } from "@/app/painter/availability/modals/edit-availability";
-import { DeleteAvailabilityModal } from "@/app/painter/availability/modals/delete-availability";
+import { EditAvailabilityModal } from "@/app/painter/modals/edit-availability";
+import { DeleteAvailabilityModal } from "@/app/painter/modals/delete-availability";
 
 interface TimeSlotProps {
   id: string;

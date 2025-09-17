@@ -25,7 +25,7 @@ export default function Home() {
                 <Calendar className="w-8 h-8 text-green-600" />
               </div>
 
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-2xl font-serif font-semibold text-gray-900 mb-2">
                 Book a Painter
               </h3>
               <p className="text-gray-600">
@@ -41,7 +41,7 @@ export default function Home() {
                 <PaintRollerIcon className="w-8 h-8 text-amber-600" />
               </div>
 
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-2xl font-serif font-semibold text-gray-900 mb-2">
                 Join as Painter
               </h3>
               <p className="text-gray-600">
