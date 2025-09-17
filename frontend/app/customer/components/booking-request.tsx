@@ -34,7 +34,7 @@ export default function BookingRequestCard({
   const end = new Date(endTime);
 
   return (
-    <Card className="w-64">
+    <Card className="w-full min-w-72 md:w-fit">
       <CardHeader className="flex flex-row items-center space-x-3 py-4">
         <div className="p-2 w-fit bg-green-100 rounded-full group-hover:bg-green-200 transition-colors">
           <PaintRollerIcon className="w-6 h-6 text-green-600" />
