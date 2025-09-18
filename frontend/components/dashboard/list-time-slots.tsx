@@ -52,6 +52,7 @@ const ListTimeSlots = async ({ searchParams }: ListTimeSlotsProps) => {
       <div className="flex flex-wrap gap-8">
         {data.data.map(slot => (
           <TimeSlot
+            key={slot.id}
             id={slot.id}
             start_time={slot.start_time}
             end_time={slot.end_time}
