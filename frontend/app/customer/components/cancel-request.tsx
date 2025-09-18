@@ -11,8 +11,9 @@ import {
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { RequestSlotsStatus } from "@/types";
+import { RequestSlotsStatus } from "@/app/types";
 import { revalidatePath } from "next/cache";
+import { getToken } from "@/app/lib/sessions";
 
 interface CancelRequestModalProps {
   id: string;
@@ -22,13 +23,10 @@ interface CancelRequestModalProps {
 export function CancelRequestModal({ id, status }: CancelRequestModalProps) {
   const confirmCancel = async () => {
     "use server";
-    const { cookies } = await import("next/headers");
 
-    const cks = await cookies();
-    const token = cks.get("session");
-
+    const token = await getToken();
     await axiosInstance.delete(`/booking-requests/${id}`, {
-      headers: { Authorization: `Bearer ${token?.value}` }
+      headers: { Authorization: `Bearer ${token}` }
     });
 
     revalidatePath("/customer");

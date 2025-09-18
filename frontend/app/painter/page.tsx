@@ -3,7 +3,7 @@ import { PlusIcon } from "lucide-react";
 import AvatarCard from "@/components/dashboard/avatar";
 import ListTimeSlots from "@/components/dashboard/list-time-slots";
 import { Button } from "@/components/ui/button";
-import { AccountType } from "@/types";
+import { AccountType } from "@/app/types";
 
 const Availability = ({
   searchParams

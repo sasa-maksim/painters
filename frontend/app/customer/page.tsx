@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import AvatarCard from "@/components/dashboard/avatar";
-import { AccountType } from "@/types";
+import { AccountType } from "@/app/types";
 import ListBookingRequests from "@/components/dashboard/list-booking-requests";
 
 const BookingRequests = ({

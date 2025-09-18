@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/app/lib/axios-instance";
+import { getToken } from "@/app/lib/sessions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,13 +22,9 @@ interface DeleteAvailabilityModalProps {
 export function DeleteAvailabilityModal({ id }: DeleteAvailabilityModalProps) {
   const confirmDelete = async () => {
     "use server";
-    const { cookies } = await import("next/headers");
-
-    const cks = await cookies();
-    const token = cks.get("session");
-
+    const token = await getToken();
     await axiosInstance.delete(`/availability/${id}`, {
-      headers: { Authorization: `Bearer ${token?.value}` }
+      headers: { Authorization: `Bearer ${token}` }
     });
 
     revalidatePath("/painter");

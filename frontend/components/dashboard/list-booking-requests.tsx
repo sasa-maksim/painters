@@ -1,6 +1,5 @@
 import { axiosInstance } from "@/app/lib/axios-instance";
-import { BookingRequestConnection } from "@/types";
-import { cookies } from "next/headers";
+import { BookingRequestConnection } from "@/app/types";
 import {
   Pagination,
   PaginationContent,
@@ -10,6 +9,7 @@ import {
   PaginationPrevious
 } from "../ui/pagination";
 import BookingRequestCard from "@/app/customer/components/booking-request";
+import { getToken } from "@/app/lib/sessions";
 
 interface ListBookingRequestsProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -21,8 +21,7 @@ const ListBookingRequests = async ({
   const queries = await searchParams;
   const page = queries.page || 1;
   const limit = queries.limit || 10;
-  const cks = await cookies();
-  const token = cks.get("session");
+  const token = await getToken();
 
   let hasPrevPage = false;
   let hasNextPage = false;
@@ -37,7 +36,7 @@ const ListBookingRequests = async ({
 
   const { data } = await axiosInstance.get<BookingRequestConnection>(
     `/booking-requests?page=${page}&limit=${limit}`,
-    { headers: { Authorization: `Bearer ${token?.value}` } }
+    { headers: { Authorization: `Bearer ${token}` } }
   );
 
   hasPrevPage = data.pagination.hasPrevPage;

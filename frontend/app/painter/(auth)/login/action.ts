@@ -2,7 +2,7 @@
 
 import { axiosInstance } from "@/app/lib/axios-instance";
 import { createSession } from "@/app/lib/sessions";
-import { AccountType } from "@/types";
+import { AccountType } from "@/app/types";
 import { isAxiosError } from "axios";
 import { redirect } from "next/navigation";
 import { z } from "zod";

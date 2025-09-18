@@ -1,9 +1,8 @@
 "use server";
 
 import { axiosInstance } from "@/app/lib/axios-instance";
+import { getToken } from "@/app/lib/sessions";
 import { isAxiosError } from "axios";
-import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import { z } from "zod";
 
 const RequestFormSchema = z.object({
@@ -25,8 +24,7 @@ type FormState =
 export async function bookSlot(_: FormState, formData: FormData) {
   const startTime = formData.get("startTime");
   const endTime = formData.get("endTime");
-  const cks = await cookies();
-  const token = cks.get("session");
+  const token = await getToken();
 
   const validatedFields = RequestFormSchema.safeParse({
     startTime,
@@ -41,7 +39,7 @@ export async function bookSlot(_: FormState, formData: FormData) {
     await axiosInstance.post(
       "/booking-requests",
       { startTime, endTime },
-      { headers: { Authorization: `Bearer ${token?.value}` } }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
     return { message: "Request added successful!", status: "success" };

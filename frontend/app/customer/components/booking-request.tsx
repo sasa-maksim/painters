@@ -7,7 +7,7 @@ import {
 import { formatDate } from "date-fns";
 import { CalendarIcon, ClockIcon, PaintRollerIcon } from "lucide-react";
 import { CancelRequestModal } from "./cancel-request";
-import { RequestSlotsStatus } from "@/types";
+import { RequestSlotsStatus } from "@/app/types";
 
 interface BookingRequestCardProps {
   id: string;

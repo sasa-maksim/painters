@@ -2,7 +2,7 @@ import { LogOutIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { deleteSession } from "@/app/lib/sessions";
 import { redirect } from "next/navigation";
-import { AccountType } from "@/types";
+import { AccountType } from "@/app/types";
 
 interface LogoutButtonProps {
   accountType: AccountType;

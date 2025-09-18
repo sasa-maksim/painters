@@ -1,20 +1,19 @@
 import { axiosInstance } from "@/app/lib/axios-instance";
-import { AccountType, User } from "@/types";
+import { AccountType, User } from "@/app/types";
 import { PaintRollerIcon } from "lucide-react";
-import { cookies } from "next/headers";
 import LogoutButton from "./logout-button";
+import { getToken } from "@/app/lib/sessions";
 
 interface AvatarProps {
   accountType: AccountType;
 }
 
 const AvatarCard = async ({ accountType }: AvatarProps) => {
-  const cks = await cookies();
-  const token = cks.get("session");
+  const token = await getToken();
 
   const user = await axiosInstance.get<User>(
     `/auth/me?account-type=${accountType}`,
-    { headers: { Authorization: `Bearer ${token?.value}` } }
+    { headers: { Authorization: `Bearer ${token}` } }
   );
 
   const name = `${user.data.first_name} ${user.data.last_name}`;

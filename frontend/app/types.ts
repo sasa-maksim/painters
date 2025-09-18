@@ -3,6 +3,11 @@ export enum AccountType {
   CUSTOMER = "CUSTOMER"
 }
 
+export type Session = {
+  token: string;
+  accountType: AccountType;
+};
+
 export type Profile = {
   id: string;
   user_id: string;

@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/app/lib/axios-instance";
-import { AccountType } from "@/types";
+import { AccountType } from "@/app/types";
 import { z } from "zod";
 
 export const RegisterFormSchema = z.object({

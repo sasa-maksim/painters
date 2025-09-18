@@ -3,9 +3,8 @@
 import { axiosInstance } from "@/app/lib/axios-instance";
 import { isAxiosError } from "axios";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import { z } from "zod";
-import { EditAvailabilityModal } from "../modals/edit-availability";
+import { getToken } from "@/app/lib/sessions";
 
 const AvailabilityFormSchema = z.object({
   startTime: z.string().nonempty("Start time is required").trim(),
@@ -26,8 +25,7 @@ type FormState =
 export async function createAvailability(_: FormState, formData: FormData) {
   const startTime = formData.get("startTime");
   const endTime = formData.get("endTime");
-  const cks = await cookies();
-  const token = cks.get("session");
+  const token = await getToken();
 
   const validatedFields = AvailabilityFormSchema.safeParse({
     startTime,
@@ -43,7 +41,7 @@ export async function createAvailability(_: FormState, formData: FormData) {
       "/availability",
       { startTime, endTime },
       {
-        headers: { Authorization: `Bearer ${token?.value}` }
+        headers: { Authorization: `Bearer ${token}` }
       }
     );
 
@@ -67,8 +65,7 @@ export async function editAvailability(_: FormState, formData: FormData) {
   const id = formData.get("id");
   const startTime = formData.get("startTime");
   const endTime = formData.get("endTime");
-  const cks = await cookies();
-  const token = cks.get("session");
+  const token = await getToken();
 
   const validatedFields = AvailabilityFormSchema.safeParse({
     startTime,
@@ -83,7 +80,7 @@ export async function editAvailability(_: FormState, formData: FormData) {
     await axiosInstance.patch(
       `/availability/${id}`,
       { startTime, endTime },
-      { headers: { Authorization: `Bearer ${token?.value}` } }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
     revalidatePath("/painter");

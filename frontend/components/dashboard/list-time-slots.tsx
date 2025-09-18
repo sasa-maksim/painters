@@ -1,6 +1,5 @@
 import { axiosInstance } from "@/app/lib/axios-instance";
-import { AvailabilitySlotConnection } from "@/types";
-import { cookies } from "next/headers";
+import { AvailabilitySlotConnection } from "@/app/types";
 import TimeSlot from "./time-slot";
 import {
   Pagination,
@@ -10,6 +9,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "../ui/pagination";
+import { getToken } from "@/app/lib/sessions";
 
 interface ListTimeSlotsProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -19,8 +19,7 @@ const ListTimeSlots = async ({ searchParams }: ListTimeSlotsProps) => {
   const queries = await searchParams;
   const page = queries.page || 1;
   const limit = queries.limit || 10;
-  const cks = await cookies();
-  const token = cks.get("session");
+  const token = await getToken();
 
   let hasPrevPage = false;
   let hasNextPage = false;
@@ -35,7 +34,7 @@ const ListTimeSlots = async ({ searchParams }: ListTimeSlotsProps) => {
 
   const { data } = await axiosInstance.get<AvailabilitySlotConnection>(
     `/availability/me?page=${page}&limit=${limit}`,
-    { headers: { Authorization: `Bearer ${token?.value}` } }
+    { headers: { Authorization: `Bearer ${token}` } }
   );
 
   hasPrevPage = data.pagination.hasPrevPage;

@@ -36,8 +36,10 @@ export default function RootLayout({
       lang="en"
       className={`${PtSerifText.variable} ${ptMonoText.variable} ${notoSans.variable} antialiased`}
     >
-      <body className="font-sans">{children}</body>
-      <Toaster />
+      <body className="font-sans">
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }
