@@ -25,7 +25,9 @@ const TimeSelectorField = ({
   const [isOpen, setIsOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(date.getTime());
-  const [defaultTimeString] = date.toTimeString().split(" ");
+  const [defaultTimeString] = new Date(initialValue || date)
+    .toTimeString()
+    .split(" ");
 
   useEffect(() => {
     if (initialValue) {

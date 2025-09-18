@@ -42,8 +42,8 @@ export function EditAvailabilityModal({
         </DialogHeader>
         <AvailabilityForm
           onModalClose={handleClose}
-          initialEndTime={startDate}
-          initialStartTime={endDate}
+          initialEndTime={endDate}
+          initialStartTime={startDate}
         />
       </DialogContent>
     </Dialog>
