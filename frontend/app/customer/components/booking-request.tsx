@@ -66,7 +66,7 @@ export default function BookingRequestCard({
         >
           {status}
         </span>
-        <CancelRequestModal id={id} />
+        <CancelRequestModal id={id} status={status} />
       </CardFooter>
     </Card>
   );

@@ -34,7 +34,7 @@ const ListTimeSlots = async ({ searchParams }: ListTimeSlotsProps) => {
     : `/painter?page=${page}&limit=${limit}`;
 
   const { data } = await axiosInstance.get<AvailabilitySlotConnection>(
-    `/availability?page=${page}&limit=${limit}`,
+    `/availability/me?page=${page}&limit=${limit}`,
     { headers: { Authorization: `Bearer ${token?.value}` } }
   );
 

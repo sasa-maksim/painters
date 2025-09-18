@@ -50,7 +50,6 @@ export async function createAvailability(_: FormState, formData: FormData) {
 
     return { message: "Availability added successful!", status: "success" };
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response?.data?.message) {
       return {
         message: error.response.data.message,

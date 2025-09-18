@@ -41,16 +41,13 @@ export async function bookSlot(_: FormState, formData: FormData) {
     await axiosInstance.post(
       "/booking-requests",
       { startTime, endTime },
-      {
-        headers: { Authorization: `Bearer ${token?.value}` }
-      }
+      { headers: { Authorization: `Bearer ${token?.value}` } }
     );
 
     revalidatePath("/customer");
 
     return { message: "Request added successful!", status: "success" };
   } catch (error) {
-    console.log(error);
     if (isAxiosError(error) && error.response?.data?.message) {
       return {
         message: error.response.data.message,
