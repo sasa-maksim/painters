@@ -11,11 +11,10 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 interface RequestFormProps {
   initialStartTime?: string;
   initialEndTime?: string;
-  onModalClose?: () => void;
 }
 
 const RequestForm = forwardRef<HTMLFormElement, RequestFormProps>(function (
-  { initialStartTime, initialEndTime, onModalClose }: RequestFormProps,
+  { initialStartTime, initialEndTime }: RequestFormProps,
   ref
 ) {
   const router = useRouter();
@@ -23,13 +22,9 @@ const RequestForm = forwardRef<HTMLFormElement, RequestFormProps>(function (
 
   useEffect(() => {
     if (state?.status === "success") {
-      if (onModalClose) {
-        onModalClose();
-      } else {
-        setTimeout(() => {
-          router.push("/customer?created=true");
-        }, 2000);
-      }
+      setTimeout(() => {
+        router.push("/customer?created=true");
+      }, 2000);
     }
   }, [state]);
 
@@ -65,26 +60,13 @@ const RequestForm = forwardRef<HTMLFormElement, RequestFormProps>(function (
           initialValue={initialEndTime}
           errors={state?.errors?.endTime || []}
         />
-        {initialStartTime || initialEndTime ? (
-          <div className="flex justify-end space-x-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onModalClose?.()}
-            >
-              Cancel
-            </Button>
-            <Button type="submit">Save changes</Button>
-          </div>
-        ) : (
-          <Button
-            type="submit"
-            disabled={pending}
-            className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800"
-          >
-            {pending && <LoaderIcon />} Book slot
-          </Button>
-        )}
+        <Button
+          type="submit"
+          disabled={pending || state?.status === "success"}
+          className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800"
+        >
+          {pending && <LoaderIcon />} Book slot
+        </Button>
       </form>
     </>
   );

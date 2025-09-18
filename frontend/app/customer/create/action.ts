@@ -44,8 +44,6 @@ export async function bookSlot(_: FormState, formData: FormData) {
       { headers: { Authorization: `Bearer ${token?.value}` } }
     );
 
-    revalidatePath("/customer");
-
     return { message: "Request added successful!", status: "success" };
   } catch (error) {
     if (isAxiosError(error) && error.response?.data?.message) {

@@ -2,7 +2,10 @@
 
 import { forwardRef, useActionState, useEffect } from "react";
 import { LoaderIcon, XCircleIcon } from "lucide-react";
-import { createAvailability } from "@/app/painter/create/action";
+import {
+  createAvailability,
+  editAvailability
+} from "@/app/painter/create/action";
 import { Button } from "../ui/button";
 import TimeSelectorField from "../form/time-selector-field";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
@@ -19,9 +22,11 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
     { initialStartTime, initialEndTime, onModalClose }: AvailabilityFormProps,
     ref
   ) {
+    const isEditScreen = Boolean(initialStartTime || initialEndTime);
+
     const router = useRouter();
     const [state, action, pending] = useActionState(
-      createAvailability,
+      isEditScreen ? editAvailability : createAvailability,
       undefined
     );
 
@@ -69,7 +74,7 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
             initialValue={initialEndTime}
             errors={state?.errors?.endTime || []}
           />
-          {initialStartTime || initialEndTime ? (
+          {isEditScreen ? (
             <div className="flex justify-end space-x-2">
               <Button
                 type="button"
@@ -83,7 +88,7 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
           ) : (
             <Button
               type="submit"
-              disabled={pending}
+              disabled={pending || state?.status === "success"}
               className="w-full bg-amber-600 hover:bg-amber-700 active:bg-amber-800"
             >
               {pending && <LoaderIcon />} Add Availability

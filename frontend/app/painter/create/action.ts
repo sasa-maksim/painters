@@ -5,6 +5,7 @@ import { isAxiosError } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
+import { EditAvailabilityModal } from "../modals/edit-availability";
 
 const AvailabilityFormSchema = z.object({
   startTime: z.string().nonempty("Start time is required").trim(),
@@ -46,9 +47,48 @@ export async function createAvailability(_: FormState, formData: FormData) {
       }
     );
 
+    return { message: "Availability added successful!", status: "success" };
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.data?.message) {
+      return {
+        message: error.response.data.message,
+        status: "error"
+      };
+    }
+
+    return {
+      message: "An unexpected error occurred. Please try again.",
+      status: "error"
+    };
+  }
+}
+
+export async function editAvailability(_: FormState, formData: FormData) {
+  const id = formData.get("id");
+  const startTime = formData.get("startTime");
+  const endTime = formData.get("endTime");
+  const cks = await cookies();
+  const token = cks.get("session");
+
+  const validatedFields = AvailabilityFormSchema.safeParse({
+    startTime,
+    endTime
+  });
+
+  if (!validatedFields.success) {
+    return { errors: validatedFields.error.flatten().fieldErrors };
+  }
+
+  try {
+    await axiosInstance.patch(
+      `/availability/${id}`,
+      { startTime, endTime },
+      { headers: { Authorization: `Bearer ${token?.value}` } }
+    );
+
     revalidatePath("/painter");
 
-    return { message: "Availability added successful!", status: "success" };
+    return { message: "Availability edited successful!", status: "success" };
   } catch (error) {
     if (isAxiosError(error) && error.response?.data?.message) {
       return {
