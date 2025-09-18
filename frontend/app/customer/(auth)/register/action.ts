@@ -53,7 +53,7 @@ export async function register(state: FormState, formData: FormData) {
     lastName: formData.get("lastName"),
     email: formData.get("email"),
     password: formData.get("password"),
-    accountType: AccountType.PAINTER
+    accountType: AccountType.CUSTOMER
   };
 
   try {

@@ -4,7 +4,6 @@ import { axiosInstance } from "@/app/lib/axios-instance";
 import { createSession } from "@/app/lib/sessions";
 import { AccountType } from "@/types";
 import { isAxiosError } from "axios";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const LoginFormSchema = z.object({
@@ -39,7 +38,7 @@ export async function login(state: FormState, formData: FormData) {
   const payload = {
     email: formData.get("email"),
     password: formData.get("password"),
-    accountType: AccountType.PAINTER
+    accountType: AccountType.CUSTOMER
   };
 
   try {

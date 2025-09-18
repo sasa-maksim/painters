@@ -1,4 +1,6 @@
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import CustomerRegisterForm from "./form";
+import Link from "next/link";
 
 const RegisterCustomer = () => {
   return (
@@ -9,7 +11,22 @@ const RegisterCustomer = () => {
       <p className="font-sans text-gray-600 mb-8">
         Create your account to book professional painters
       </p>
-      <CustomerRegisterForm />
+      <Card className="w-full max-w-sm">
+        <CardContent className="p-6">
+          <CustomerRegisterForm />
+        </CardContent>
+        <CardFooter className="flex-col gap-2">
+          <p>
+            Already have an account?{" "}
+            <Link
+              href="/customer/login"
+              className="text-blue-700 underline-offset-4 hover:underline"
+            >
+              Login
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
     </>
   );
 };
