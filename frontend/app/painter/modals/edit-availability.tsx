@@ -4,20 +4,18 @@ import AvailabilityForm from "@/components/dashboard/availability-form";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
 import { EditIcon } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 interface EditAvailabilityModalProps {
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
 }
 
 export function EditAvailabilityModal({
@@ -44,8 +42,8 @@ export function EditAvailabilityModal({
         </DialogHeader>
         <AvailabilityForm
           onModalClose={handleClose}
-          initialEndTime={startDate.toISOString()}
-          initialStartTime={endDate.toISOString()}
+          initialEndTime={startDate}
+          initialStartTime={endDate}
         />
       </DialogContent>
     </Dialog>

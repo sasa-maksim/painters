@@ -13,8 +13,6 @@ interface TimeSlotProps {
 const TimeSlot = ({ id, start_time, end_time }: TimeSlotProps) => {
   const startDate = new Date(start_time);
   const endDate = new Date(end_time);
-  endDate.setHours(endDate.getHours() + 15);
-
   const duration = intervalToDuration({ start: startDate, end: endDate });
 
   return (
@@ -48,7 +46,7 @@ const TimeSlot = ({ id, start_time, end_time }: TimeSlotProps) => {
         </div>
       </CardContent>
       <CardFooter className="flex justify-end space-x-2 py-4">
-        <EditAvailabilityModal startDate={startDate} endDate={endDate} />
+        <EditAvailabilityModal startDate={start_time} endDate={end_time} />
         <DeleteAvailabilityModal id={id} />
       </CardFooter>
     </Card>
