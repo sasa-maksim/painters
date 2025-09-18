@@ -12,6 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { useRouter } from "next/navigation";
 
 interface AvailabilityFormProps {
+  id?: string;
   initialStartTime?: string;
   initialEndTime?: string;
   onModalClose?: () => void;
@@ -19,7 +20,12 @@ interface AvailabilityFormProps {
 
 const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
   function (
-    { initialStartTime, initialEndTime, onModalClose }: AvailabilityFormProps,
+    {
+      id,
+      initialStartTime,
+      initialEndTime,
+      onModalClose
+    }: AvailabilityFormProps,
     ref
   ) {
     const isEditScreen = Boolean(initialStartTime || initialEndTime);
@@ -62,6 +68,7 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
           </Alert>
         )}
         <form className="space-y-4" ref={ref} action={action}>
+          <input type="text" hidden name="id" value={id} />
           <TimeSelectorField
             name="startTime"
             legend="Start time"

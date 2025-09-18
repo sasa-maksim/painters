@@ -46,7 +46,11 @@ const TimeSlot = ({ id, start_time, end_time }: TimeSlotProps) => {
         </div>
       </CardContent>
       <CardFooter className="flex justify-end space-x-2 py-4">
-        <EditAvailabilityModal startDate={start_time} endDate={end_time} />
+        <EditAvailabilityModal
+          id={id}
+          endDate={end_time}
+          startDate={start_time}
+        />
         <DeleteAvailabilityModal id={id} />
       </CardFooter>
     </Card>

@@ -14,11 +14,13 @@ import { EditIcon } from "lucide-react";
 import { useState } from "react";
 
 interface EditAvailabilityModalProps {
+  id: string;
   startDate: string;
   endDate: string;
 }
 
 export function EditAvailabilityModal({
+  id,
   startDate,
   endDate
 }: EditAvailabilityModalProps) {
@@ -41,6 +43,7 @@ export function EditAvailabilityModal({
           </DialogDescription>
         </DialogHeader>
         <AvailabilityForm
+          id={id}
           onModalClose={handleClose}
           initialEndTime={endDate}
           initialStartTime={startDate}
