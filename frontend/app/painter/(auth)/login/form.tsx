@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { InfoIcon, LoaderIcon, XCircleIcon } from "lucide-react";
+import { LoaderIcon, XCircleIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import PasswordField from "@/components/form/password-field";
 import { Button } from "@/components/ui/button";

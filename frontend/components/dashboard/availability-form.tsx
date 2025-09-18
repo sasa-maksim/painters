@@ -11,10 +11,14 @@ import { useRouter } from "next/navigation";
 interface AvailabilityFormProps {
   initialStartTime?: string;
   initialEndTime?: string;
+  onModalClose?: () => void;
 }
 
 const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
-  function ({ initialStartTime, initialEndTime }: AvailabilityFormProps, ref) {
+  function (
+    { initialStartTime, initialEndTime, onModalClose }: AvailabilityFormProps,
+    ref
+  ) {
     const router = useRouter();
     const [state, action, pending] = useActionState(
       createAvailability,
@@ -23,9 +27,13 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
 
     useEffect(() => {
       if (state?.status === "success") {
-        setTimeout(() => {
-          router.push("/painter?created=true");
-        }, 2000);
+        if (onModalClose) {
+          onModalClose();
+        } else {
+          setTimeout(() => {
+            router.push("/painter?created=true");
+          }, 2000);
+        }
       }
     }, [state]);
 
@@ -70,6 +78,16 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
               {pending && <LoaderIcon />} Add Availability
             </Button>
           )}
+          <div className="flex justify-end space-x-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onModalClose?.()}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Save changes</Button>
+          </div>
         </form>
       </>
     );

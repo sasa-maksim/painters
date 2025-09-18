@@ -13,7 +13,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { EditIcon } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 interface EditAvailabilityModalProps {
   startDate: Date;
@@ -24,14 +24,12 @@ export function EditAvailabilityModal({
   startDate,
   endDate
 }: EditAvailabilityModalProps) {
-  const formRef = useRef<HTMLFormElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const triggerFormSubmit = () => {
-    formRef.current?.submit();
-  };
+  const handleClose = () => setIsOpen(false);
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="shadow-none">
           <EditIcon />
@@ -45,16 +43,10 @@ export function EditAvailabilityModal({
           </DialogDescription>
         </DialogHeader>
         <AvailabilityForm
-          ref={formRef}
+          onModalClose={handleClose}
           initialEndTime={startDate.toISOString()}
           initialStartTime={endDate.toISOString()}
         />
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button onClick={triggerFormSubmit}>Save changes</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
