@@ -1,31 +1,38 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import useSWRMutation from "swr/mutation";
+import { useActionState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { InfoIcon, LoaderIcon, XCircleIcon } from "lucide-react";
 import PasswordField from "@/components/form/password-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { dataSender } from "@/utils/data-sender";
-import { LoaderIcon, XCircleIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useActionState, useEffect } from "react";
 import { register } from "./action";
 
 const PainterRegisterForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [state, action, pending] = useActionState(register, undefined);
 
   useEffect(() => {
     if (state?.status === "success") {
-      setTimeout(() => {
-        router.push("/painter");
-      }, 1000);
+      router.push("/painter/login?success=true");
     }
   }, [state]);
 
   return (
     <>
+      {searchParams.get("success") === "true" && (
+        <Alert
+          variant="default"
+          className="mb-6 border border-blue-200 bg-blue-100"
+        >
+          <AlertTitle className="text-blue-800 text-start leading-normal">
+            Account created successfully! Login to continue
+          </AlertTitle>
+        </Alert>
+      )}
       {state?.message && state?.status === "error" && (
         <Alert variant="destructive" className="mb-6">
           <XCircleIcon />

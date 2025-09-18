@@ -1,7 +1,12 @@
-import { axiosInstance } from "@/lib/axios-instance";
+"use server";
+
+import { axiosInstance } from "@/app/lib/axios-instance";
+import { createSession } from "@/app/lib/sessions";
+import { isAxiosError } from "axios";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
-export const LoginFormSchema = z.object({
+const LoginFormSchema = z.object({
   email: z.email({ message: "Please enter a valid email." }).trim(),
   password: z
     .string()
@@ -30,15 +35,25 @@ export async function login(state: FormState, formData: FormData) {
     return { errors: validatedFields.error.flatten().fieldErrors };
   }
 
-  formData.append("accountType", "PAINTER");
-  const payload = Object.fromEntries(formData.entries());
+  const payload = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+    accountType: "PAINTER"
+  };
 
   try {
-    await axiosInstance.post("/auth/login", payload);
+    const response = await axiosInstance.post<{ access_token: string }>(
+      "/auth/login",
+      payload
+    );
+
+    if (response.data?.access_token) {
+      await createSession(response.data.access_token);
+    }
 
     return { message: "Registration successful!", status: "success" };
-  } catch (error: any) {
-    if (error.response?.data?.message) {
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.data?.message) {
       return {
         message: error.response.data.message,
         status: "error"

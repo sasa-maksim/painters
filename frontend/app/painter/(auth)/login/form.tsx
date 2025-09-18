@@ -1,29 +1,38 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
+import { InfoIcon, LoaderIcon, XCircleIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import PasswordField from "@/components/form/password-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { login } from "./action";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { LoaderIcon, XCircleIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 const PainterLoginForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [state, action, pending] = useActionState(login, undefined);
 
   useEffect(() => {
     if (state?.status === "success") {
-      setTimeout(() => {
-        router.push("/painter");
-      }, 1000);
+      router.push("/painter");
     }
   }, [state]);
 
   return (
     <>
+      {searchParams.get("success") === "true" && (
+        <Alert
+          variant="default"
+          className="mb-6 border border-blue-200 bg-blue-100"
+        >
+          <AlertTitle className="text-blue-800 text-start leading-normal">
+            Account created successfully! Login to continue
+          </AlertTitle>
+        </Alert>
+      )}
       {state?.message && state?.status === "error" && (
         <Alert variant="destructive" className="mb-6">
           <XCircleIcon />
@@ -37,6 +46,7 @@ const PainterLoginForm = () => {
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="john@example.com"
               required

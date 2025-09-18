@@ -1,3 +1,5 @@
+import AvatarCard from "@/components/dashboard/avatar";
+import LogoutButton from "@/components/dashboard/logout-button";
 import TimeSlot from "@/components/dashboard/time-slot";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,6 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination";
+import { AccountType } from "@/types";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -24,19 +27,22 @@ const Availability = () => {
             Manage your available time slots
           </p>
         </div>
-        <Button
-          asChild
-          className="bg-amber-600 hover:bg-amber-700 active:bg-amber-800 transition-colors"
-        >
-          <Link href="/painter/availability/create">
-            <PlusIcon /> Add Availability slot
-          </Link>
-        </Button>
+        <AvatarCard accountType={AccountType.PAINTER} />
       </header>
       <main className="py-8 px-2 md:px-16 mx-auto">
-        <h2 className="font-serif text-2xl font-bold text-gray-800 w-fit mb-8">
+        <h2 className="font-serif text-2xl font-bold text-gray-800 w-fit mb-4">
           Time slots
         </h2>
+        <div className="flex mb-8">
+          <Button
+            asChild
+            className="bg-amber-600 hover:bg-amber-700 active:bg-amber-800 transition-colors"
+          >
+            <Link href="/painter/create">
+              <PlusIcon /> Add Availability slot
+            </Link>
+          </Button>
+        </div>
         <div className="flex flex-wrap gap-8">
           {[1, 2, 3].map(t => (
             <TimeSlot

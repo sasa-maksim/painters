@@ -22,7 +22,10 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
           initialValue={initialEndTime}
         />
         {initialStartTime || initialEndTime ? null : (
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full bg-amber-600 hover:bg-amber-700 active:bg-amber-800"
+          >
             Add Availability
           </Button>
         )}

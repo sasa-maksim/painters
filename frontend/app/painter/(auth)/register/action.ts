@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/lib/axios-instance";
+import { axiosInstance } from "@/app/lib/axios-instance";
 import { z } from "zod";
 
 export const RegisterFormSchema = z.object({
@@ -47,8 +47,13 @@ export async function register(state: FormState, formData: FormData) {
     return { errors: validatedFields.error.flatten().fieldErrors };
   }
 
-  formData.append("accountType", "PAINTER");
-  const payload = Object.fromEntries(formData.entries());
+  const payload = {
+    firstName: formData.get("firstName"),
+    lastName: formData.get("lastName"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    accountType: "PAINTER"
+  };
 
   try {
     await axiosInstance.post("/users", payload);

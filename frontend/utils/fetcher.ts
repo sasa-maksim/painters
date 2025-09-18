@@ -1,4 +1,4 @@
-import { RequestError } from "@/lib/request-error";
+import { RequestError } from "@/app/lib/request-error";
 
 export const fetcher = async <ResponseType extends Record<string, unknown>>(
   path: string,
