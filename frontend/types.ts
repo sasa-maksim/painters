@@ -36,3 +36,33 @@ export type AvailabilitySlotConnection = {
     hasPrevPage: boolean;
   };
 };
+
+export type BookingRequest = {
+  id: string;
+  customer_profile_id: string;
+  start_time: string;
+  end_time: string;
+  status: RequestSlotsStatus;
+  painter: {
+    id: string;
+    name: string;
+  } | null;
+};
+
+export type BookingRequestConnection = {
+  message: string;
+  data: BookingRequest[];
+  pagination: {
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+};
+
+export enum RequestSlotsStatus {
+  UNASSIGNED = "UNASSIGNED",
+  CONFIRMED = "CONFIRMED",
+  CANCELLED = "CANCELLED",
+  COMPLETED = "COMPLETED"
+}

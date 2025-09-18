@@ -7,20 +7,21 @@ import {
 import { formatDate } from "date-fns";
 import { CalendarIcon, ClockIcon, PaintRollerIcon } from "lucide-react";
 import { CancelRequestModal } from "./cancel-request";
+import { RequestSlotsStatus } from "@/types";
 
 interface BookingRequestCardProps {
   id: string;
   painter: { id: string; name: string } | null;
   startTime: string;
   endTime: string;
-  status: string;
+  status: RequestSlotsStatus;
 }
 
-const statusColors: Record<string, string> = {
-  confirmed: "bg-green-100 text-green-700",
-  pending: "bg-yellow-100 text-yellow-700",
-  cancelled: "bg-red-100 text-red-700",
-  completed: "bg-blue-100 text-blue-700"
+const statusColors: Record<RequestSlotsStatus, string> = {
+  [RequestSlotsStatus.CONFIRMED]: "bg-green-100 text-green-700",
+  [RequestSlotsStatus.UNASSIGNED]: "bg-yellow-100 text-yellow-700",
+  [RequestSlotsStatus.CANCELLED]: "bg-red-100 text-red-700",
+  [RequestSlotsStatus.COMPLETED]: "bg-blue-100 text-blue-700"
 };
 
 export default function BookingRequestCard({

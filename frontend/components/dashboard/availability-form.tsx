@@ -52,7 +52,7 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
         {state?.message && state?.status === "error" && (
           <Alert variant="destructive" className="mb-6">
             <XCircleIcon />
-            <AlertTitle>Login Failed!</AlertTitle>
+            <AlertTitle>Failed to book slot!</AlertTitle>
             <AlertDescription>{state.message}</AlertDescription>
           </Alert>
         )}
@@ -69,7 +69,18 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
             initialValue={initialEndTime}
             errors={state?.errors?.endTime || []}
           />
-          {initialStartTime || initialEndTime ? null : (
+          {initialStartTime || initialEndTime ? (
+            <div className="flex justify-end space-x-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onModalClose?.()}
+              >
+                Cancel
+              </Button>
+              <Button type="submit">Save changes</Button>
+            </div>
+          ) : (
             <Button
               type="submit"
               disabled={pending}
@@ -78,16 +89,6 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
               {pending && <LoaderIcon />} Add Availability
             </Button>
           )}
-          <div className="flex justify-end space-x-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onModalClose?.()}
-            >
-              Cancel
-            </Button>
-            <Button type="submit">Save changes</Button>
-          </div>
         </form>
       </>
     );
