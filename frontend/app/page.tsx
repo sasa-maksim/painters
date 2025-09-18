@@ -1,4 +1,4 @@
-import { Calendar, PaintRollerIcon } from "lucide-react";
+import { CalendarIcon, PaintRollerIcon } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
               className="group bg-white hover:bg-green-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-green-300 cursor-pointer size-[280px]"
             >
               <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center group-hover:bg-green-200 transition-colors">
-                <Calendar className="w-8 h-8 text-green-600" />
+                <CalendarIcon className="w-8 h-8 text-green-600" />
               </div>
 
               <h3 className="text-2xl font-serif font-semibold text-gray-900 mb-2">

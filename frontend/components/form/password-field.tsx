@@ -9,11 +9,12 @@ import type { CheckedState } from "@radix-ui/react-checkbox";
 interface PasswordFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   formControlProps?: React.HTMLAttributes<HTMLDivElement>;
   labelProps?: React.LabelHTMLAttributes<HTMLLabelElement>;
+  errors: string[];
 }
 
 const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
   function PasswordField(
-    { formControlProps, labelProps, ...inputProps }: PasswordFieldProps,
+    { formControlProps, labelProps, errors, ...inputProps }: PasswordFieldProps,
     ref
   ) {
     const [isShowingPassword, setIsShowingPassword] =
@@ -34,10 +35,23 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
         <Input
           ref={ref}
           id="password"
+          name="password"
           type={isShowingPassword ? "text" : "password"}
           required
           {...inputProps}
         />
+        {errors.length ? (
+          <div className="flex flex-col gap-1 justify-start">
+            <small className="text-red-500 text-start">Password must:</small>
+            <ul className="flex flex-col items-start justify-start">
+              {errors.map(error => (
+                <li key={error} className="text-start text-sm text-red-500">
+                  - {error}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         <div className="flex justify-end items-center gap-3 font-sans w-full">
           <Checkbox
             id="show-password"

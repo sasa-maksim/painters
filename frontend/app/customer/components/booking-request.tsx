@@ -5,7 +5,7 @@ import {
   CardHeader
 } from "@/components/ui/card";
 import { formatDate } from "date-fns";
-import { Calendar, Clock, PaintRollerIcon } from "lucide-react";
+import { CalendarIcon, ClockIcon, PaintRollerIcon } from "lucide-react";
 import { CancelRequestModal } from "./cancel-request";
 
 interface BookingRequestCardProps {
@@ -45,13 +45,13 @@ export default function BookingRequestCard({
       </CardHeader>
       <CardContent className="space-y-2 pb-4 pt-0">
         <div className="flex items-center space-x-2 text-gray-700">
-          <Calendar className="w-4 h-4" />
+          <CalendarIcon className="w-4 h-4" />
           <span className="font-sans text-sm">
             {formatDate(start, "EEEE, do MMM, yyyy")}
           </span>
         </div>
         <div className="flex items-center space-x-2 text-gray-700">
-          <Clock className="w-4 h-4" />
+          <ClockIcon className="w-4 h-4" />
           <span className="font-sans text-sm">
             {formatDate(start, "hh:mm a")} - {formatDate(end, "hh:mm a")}
           </span>
