@@ -18,3 +18,21 @@ export type User = {
   created_at: string;
   updated_at: string;
 };
+
+export type AvailabilitySlot = {
+  id: string;
+  painter_profile_id: string;
+  start_time: string;
+  end_time: string;
+};
+
+export type AvailabilitySlotConnection = {
+  message: string;
+  data: AvailabilitySlot[];
+  pagination: {
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+};

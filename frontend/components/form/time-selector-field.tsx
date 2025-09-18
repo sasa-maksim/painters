@@ -12,12 +12,14 @@ interface TimeSelectorFieldProps {
   legend: string;
   name: string;
   initialValue?: string;
+  errors: string[];
 }
 
 const TimeSelectorField = ({
   legend,
   name,
-  initialValue
+  initialValue,
+  errors
 }: TimeSelectorFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -115,6 +117,12 @@ const TimeSelectorField = ({
           />
         </div>
       </div>
+
+      {errors && (
+        <div className="flex mx-4 mt-1">
+          <small className="text-red-500 text-start">{errors}</small>
+        </div>
+      )}
     </fieldset>
   );
 };

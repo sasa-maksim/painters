@@ -1,21 +1,15 @@
-import AvatarCard from "@/components/dashboard/avatar";
-import LogoutButton from "@/components/dashboard/logout-button";
-import TimeSlot from "@/components/dashboard/time-slot";
-import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious
-} from "@/components/ui/pagination";
-import { AccountType } from "@/types";
-import { PlusIcon } from "lucide-react";
 import Link from "next/link";
+import { PlusIcon } from "lucide-react";
+import AvatarCard from "@/components/dashboard/avatar";
+import ListTimeSlots from "@/components/dashboard/list-time-slots";
+import { Button } from "@/components/ui/button";
+import { AccountType } from "@/types";
 
-const Availability = () => {
+const Availability = ({
+  searchParams
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) => {
   return (
     <>
       <header className="bg-white w-full px-2 py-2 sm:px-8 sm:py-8 flex gap-x-8 gap-y-4 justify-between items-center flex-wrap sticky top-0 mb-8 border-b">
@@ -43,34 +37,7 @@ const Availability = () => {
             </Link>
           </Button>
         </div>
-        <div className="flex flex-wrap gap-8">
-          {[1, 2, 3].map(t => (
-            <TimeSlot
-              key={t}
-              id={t.toString()}
-              start_time={new Date().toISOString()}
-              end_time={new Date().toISOString()}
-            />
-          ))}
-        </div>
-        <div className="my-8">
-          <Pagination className="sm:justify-start">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
+        <ListTimeSlots searchParams={searchParams} />
       </main>
     </>
   );
