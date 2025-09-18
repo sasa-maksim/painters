@@ -2,6 +2,7 @@
 
 import { axiosInstance } from "@/app/lib/axios-instance";
 import { isAxiosError } from "axios";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
 
@@ -37,7 +38,7 @@ export async function createAvailability(_: FormState, formData: FormData) {
   }
 
   try {
-    const response = await axiosInstance.post(
+    await axiosInstance.post(
       "/availability",
       { startTime, endTime },
       {
@@ -45,7 +46,7 @@ export async function createAvailability(_: FormState, formData: FormData) {
       }
     );
 
-    console.log(response);
+    revalidatePath("/painter");
 
     return { message: "Availability added successful!", status: "success" };
   } catch (error) {

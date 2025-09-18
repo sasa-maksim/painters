@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PT_Serif, PT_Mono, Noto_Sans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const PtSerifText = PT_Serif({
   variable: "--font-pt-serif",
@@ -36,6 +37,7 @@ export default function RootLayout({
       className={`${PtSerifText.variable} ${ptMonoText.variable} ${notoSans.variable} antialiased`}
     >
       <body className="font-sans">{children}</body>
+      <Toaster />
     </html>
   );
 }

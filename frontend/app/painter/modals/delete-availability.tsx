@@ -1,5 +1,4 @@
-"use client";
-
+import { axiosInstance } from "@/app/lib/axios-instance";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,15 +12,25 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
+import { revalidatePath } from "next/cache";
 
 interface DeleteAvailabilityModalProps {
   id: string;
 }
 
 export function DeleteAvailabilityModal({ id }: DeleteAvailabilityModalProps) {
-  const handleDelete = async () => {
-    // Implement the delete functionality here, e.g., make an API call to delete the availability by id
-    console.log(`Deleting availability with id: ${id}`);
+  const confirmDelete = async () => {
+    "use server";
+    const { cookies } = await import("next/headers");
+
+    const cks = await cookies();
+    const token = cks.get("session");
+
+    await axiosInstance.delete(`/availability/${id}`, {
+      headers: { Authorization: `Bearer ${token?.value}` }
+    });
+
+    revalidatePath("/painter");
   };
 
   return (
@@ -41,7 +50,7 @@ export function DeleteAvailabilityModal({ id }: DeleteAvailabilityModalProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} color="destructive">
+          <AlertDialogAction onClick={confirmDelete} color="destructive">
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>
