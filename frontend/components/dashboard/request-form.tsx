@@ -2,11 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { forwardRef, useActionState, useEffect } from "react";
-import { LoaderIcon, XCircleIcon } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 import { bookSlot } from "@/app/customer/create/action";
 import { Button } from "../ui/button";
 import TimeSelectorField from "../form/time-selector-field";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { formatDate } from "date-fns";
+import { sameDates } from "@/utils/same-dates";
+import { readableDateFormat } from "@/utils/readable-date-format";
 
 interface RequestFormProps {
   initialStartTime?: string;
@@ -41,10 +44,46 @@ const RequestForm = forwardRef<HTMLFormElement, RequestFormProps>(function (
         </Alert>
       )}
       {state?.message && state?.status === "error" && (
-        <Alert variant="destructive" className="mb-6">
-          <XCircleIcon />
-          <AlertTitle>Failed to book slot!</AlertTitle>
-          <AlertDescription>{state.message}</AlertDescription>
+        <Alert
+          variant="destructive"
+          className="mb-6 bg-red-50/50 border border-red-100 drop-shadow-xs"
+        >
+          <AlertTitle className="text-start leading-normal text-base">
+            {state.message}
+          </AlertTitle>
+          {!!state.info.recommendation && (
+            <AlertDescription className="text-start mt-2 text-sm text-amber-700 bg-amber-100 p-2 rounded">
+              The next available time slot for you is in
+              <br />
+              <span className="text-amber-800 font-medium">
+                {Math.round(state.info.recommendation.timeDifferenceHours)}{" "}
+                hours
+              </span>
+              , from
+              <br />
+              <span className="text-amber-800 font-medium">
+                {readableDateFormat(
+                  state.info.recommendation.suggestedStartTime
+                )}
+              </span>{" "}
+              to
+              <br />
+              <span className="text-amber-800 font-medium">
+                {sameDates(
+                  state.info.recommendation.suggestedStartTime,
+                  state.info.recommendation.suggestedEndTime
+                )
+                  ? formatDate(
+                      state.info.recommendation.suggestedEndTime,
+                      "hh:mm a"
+                    )
+                  : readableDateFormat(
+                      state.info.recommendation.suggestedEndTime
+                    )}
+                .
+              </span>
+            </AlertDescription>
+          )}
         </Alert>
       )}
       <form className="space-y-4" ref={ref} action={action}>

@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import PainterLoginForm from "./form";
-import Link from "next/link";
 
 const LoginPainter = () => {
   return (

@@ -47,6 +47,7 @@ export async function bookSlot(_: FormState, formData: FormData) {
     if (isAxiosError(error) && error.response?.data?.message) {
       return {
         message: error.response.data.message,
+        info: error.response.data,
         status: "error"
       };
     }

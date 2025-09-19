@@ -24,8 +24,6 @@ export async function getToken() {
   const cookieStore = await cookies();
   const session = cookieStore.get("session");
 
-  console.log({ session });
-
   const sessionValue: Session = session?.value
     ? JSON.parse(session.value)
     : { token: "" };
