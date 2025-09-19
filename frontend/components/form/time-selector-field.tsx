@@ -11,6 +11,8 @@ import { Input } from "../ui/input";
 interface TimeSelectorFieldProps {
   legend: string;
   name: string;
+  value?: string;
+  onChange?: (value: string) => void;
   initialValue?: string;
   errors: string[];
 }
@@ -18,38 +20,37 @@ interface TimeSelectorFieldProps {
 const TimeSelectorField = ({
   legend,
   name,
+  value,
+  onChange,
   initialValue,
   errors
 }: TimeSelectorFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(date.getTime());
-  const [defaultTimeString] = new Date(initialValue || date)
-    .toTimeString()
-    .split(" ");
+
+  const currentValue = value !== undefined ? value : initialValue || "";
+  const currentDate = currentValue ? new Date(currentValue) : new Date();
+
+  const [date, setDate] = useState(currentDate);
+
+  const timeString = date.toTimeString().split(" ")[0];
 
   useEffect(() => {
-    if (initialValue) {
-      const initialDate = new Date(initialValue);
-
-      setDate(initialDate);
-      setTime(initialDate.getTime());
+    if (currentValue) {
+      const newDate = new Date(currentValue);
+      setDate(newDate);
     }
-  }, [initialValue]);
+  }, [currentValue]);
 
   useEffect(() => {
-    if (time) {
-      date.setTime(time);
-      setDate(new Date(date));
-    }
-  }, [time]);
-
-  useEffect(() => {
+    const isoString = date.toISOString();
     if (inputRef.current) {
-      inputRef.current.value = date.toISOString();
+      inputRef.current.value = isoString;
     }
-  }, [date]);
+    if (onChange) {
+      onChange(isoString);
+    }
+  }, [date, onChange]);
 
   const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const enteredDate = event.target.valueAsDate;
@@ -57,8 +58,19 @@ const TimeSelectorField = ({
 
     if (enteredDate) {
       const newDateTime = currentDateTime + enteredDate.getTime();
-      if (date) setTime(newDateTime);
+      const newDate = new Date(newDateTime);
+      setDate(newDate);
     }
+  };
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      const newDate = new Date(selectedDate);
+      newDate.setHours(date.getHours(), date.getMinutes(), date.getSeconds());
+
+      setDate(newDate);
+    }
+    setIsOpen(false);
   };
 
   return (
@@ -76,8 +88,9 @@ const TimeSelectorField = ({
               ref={inputRef}
               type="text"
               name={name}
+              hidden
               id={`${name}-date`}
-              className="hidden"
+              value={date.toISOString()}
             />
             <PopoverTrigger asChild>
               <Button
@@ -98,10 +111,7 @@ const TimeSelectorField = ({
                 className="w-64"
                 selected={date}
                 captionLayout="dropdown"
-                onSelect={date => {
-                  if (date) setDate(date);
-                  setIsOpen(false);
-                }}
+                onSelect={handleDateSelect}
               />
             </PopoverContent>
           </Popover>
@@ -114,15 +124,18 @@ const TimeSelectorField = ({
             type="time"
             id="time-picker"
             step="1"
-            defaultValue={defaultTimeString}
+            value={timeString}
             onChange={handleTimeChange}
           />
         </div>
       </div>
-
-      {errors && (
+      {errors.length > 0 && (
         <div className="flex mx-4 mt-1">
-          <small className="text-red-500 text-start">{errors}</small>
+          {errors.map(error => (
+            <small key={error} className="text-red-500 text-start">
+              {error}
+            </small>
+          ))}
         </div>
       )}
     </fieldset>

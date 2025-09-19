@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useActionState, useEffect } from "react";
+import { forwardRef, useActionState, useEffect, useState } from "react";
 import { LoaderIcon, XCircleIcon } from "lucide-react";
 import {
   createAvailability,
@@ -36,6 +36,9 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
       undefined
     );
 
+    const [startDateTime, setStartDateTime] = useState(initialStartTime || "");
+    const [endDateTime, setEndDateTime] = useState(initialEndTime || "");
+
     useEffect(() => {
       if (state?.status === "success") {
         if (onModalClose) {
@@ -68,17 +71,19 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
           </Alert>
         )}
         <form className="space-y-4" ref={ref} action={action}>
-          <input type="text" name="id" defaultValue={id} hidden />
+          <input type="text" name="id" value={id} hidden />
           <TimeSelectorField
             name="startTime"
             legend="Start time"
-            initialValue={initialStartTime}
+            value={startDateTime}
+            onChange={setStartDateTime}
             errors={state?.errors?.startTime || []}
           />
           <TimeSelectorField
             name="endTime"
             legend="End time"
-            initialValue={initialEndTime}
+            value={endDateTime}
+            onChange={setEndDateTime}
             errors={state?.errors?.endTime || []}
           />
           {isEditScreen ? (
