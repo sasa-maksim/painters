@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { forwardRef, useActionState, useEffect } from "react";
+import { forwardRef, useActionState, useEffect, useState } from "react";
 import { LoaderIcon } from "lucide-react";
 import { bookSlot } from "@/app/actions/book-slot";
 import { Button } from "../ui/button";
@@ -11,17 +11,11 @@ import { formatDate } from "date-fns";
 import { sameDates } from "@/utils/same-dates";
 import { readableDateFormat } from "@/utils/readable-date-format";
 
-interface RequestFormProps {
-  initialStartTime?: string;
-  initialEndTime?: string;
-}
-
-const RequestForm = forwardRef<HTMLFormElement, RequestFormProps>(function (
-  { initialStartTime, initialEndTime }: RequestFormProps,
-  ref
-) {
+const RequestForm = forwardRef<HTMLFormElement, undefined>(function (_, ref) {
   const router = useRouter();
   const [state, action, pending] = useActionState(bookSlot, undefined);
+  const [startDateTime, setStartDateTime] = useState("");
+  const [endDateTime, setEndDateTime] = useState("");
 
   useEffect(() => {
     if (state?.status === "success") {
@@ -92,13 +86,15 @@ const RequestForm = forwardRef<HTMLFormElement, RequestFormProps>(function (
         <TimeSelectorField
           name="startTime"
           legend="Start time"
-          initialValue={initialStartTime}
+          value={startDateTime}
+          onChange={setStartDateTime}
           errors={state?.errors?.startTime || []}
         />
         <TimeSelectorField
           name="endTime"
           legend="End time"
-          initialValue={initialEndTime}
+          value={endDateTime}
+          onChange={setEndDateTime}
           errors={state?.errors?.endTime || []}
         />
         <Button
