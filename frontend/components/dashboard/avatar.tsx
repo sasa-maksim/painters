@@ -1,6 +1,6 @@
-import { axiosInstance } from "@/app/lib/axios-instance";
-import { AccountType, User } from "@/app/types";
 import { PaintRollerIcon } from "lucide-react";
+import { axiosInstance } from "@/app/lib/axios-instance";
+import type { AccountType, User } from "@/app/types";
 import LogoutButton from "./logout-button";
 import { getToken } from "@/app/lib/sessions";
 

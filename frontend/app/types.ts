@@ -3,6 +3,13 @@ export enum AccountType {
   CUSTOMER = "CUSTOMER"
 }
 
+export type LoginResponse = {
+  message: string;
+  user: User;
+  access_token: string;
+  account_type: AccountType;
+};
+
 export type Session = {
   token: string;
   accountType: AccountType;

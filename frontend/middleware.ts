@@ -26,8 +26,9 @@ export function middleware(request: NextRequest) {
 
   const appSide = path.split("/").filter(Boolean)[0].toUpperCase();
 
-  if (accountType !== appSide) {
+  if (accountType && accountType !== appSide) {
     const redirectUrl = accountType ? `/${accountType.toLowerCase()}` : "/";
+    console.log({ aa: redirectUrl });
     return NextResponse.redirect(new URL(redirectUrl, request.url));
   }
 
@@ -35,11 +36,13 @@ export function middleware(request: NextRequest) {
     if (isPainterRoute) {
       const loginUrl = new URL("/painter/login", request.url);
       loginUrl.searchParams.set("redirect", path);
+      console.log({ plu: loginUrl });
       return NextResponse.redirect(loginUrl);
     }
     if (isCustomerRoute) {
       const loginUrl = new URL("/customer/login", request.url);
       loginUrl.searchParams.set("redirect", path);
+      console.log({ clu: loginUrl });
       return NextResponse.redirect(loginUrl);
     }
   }
@@ -49,6 +52,7 @@ export function middleware(request: NextRequest) {
     const redirectUrl = searchParams.get("redirect");
     const fallbackUrl = isPainterRoute ? "/painter" : "/customer";
 
+    console.log({ rflu: redirectUrl, ffu: fallbackUrl });
     return NextResponse.redirect(
       new URL(redirectUrl || fallbackUrl, request.url)
     );

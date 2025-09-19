@@ -2,7 +2,7 @@
 
 import { axiosInstance } from "@/app/lib/axios-instance";
 import { createSession } from "@/app/lib/sessions";
-import { AccountType } from "@/app/types";
+import { AccountType, type LoginResponse } from "@/app/types";
 import { isAxiosError } from "axios";
 import { z } from "zod";
 
@@ -42,15 +42,15 @@ export async function login(state: FormState, formData: FormData) {
   };
 
   try {
-    const response = await axiosInstance.post<{
-      access_token: string;
-      account_type: string;
-    }>("/auth/login", payload);
+    const response = await axiosInstance.post<LoginResponse>(
+      "/auth/login",
+      payload
+    );
 
     if (response.data?.access_token) {
       await createSession({
-        accountType: response.data.account_type as AccountType,
-        token: response.data.access_token
+        token: response.data.access_token,
+        accountType: response.data.account_type
       });
     }
 
