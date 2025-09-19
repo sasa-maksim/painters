@@ -63,7 +63,8 @@ const RequestForm = forwardRef<HTMLFormElement, RequestFormProps>(function (
               <br />
               <span className="text-amber-800 font-medium">
                 {readableDateFormat(
-                  state.info.recommendation.suggestedStartTime
+                  state.info.recommendation.suggestedStartTime,
+                  true
                 )}
               </span>{" "}
               to
@@ -78,7 +79,8 @@ const RequestForm = forwardRef<HTMLFormElement, RequestFormProps>(function (
                       "hh:mm a"
                     )
                   : readableDateFormat(
-                      state.info.recommendation.suggestedEndTime
+                      state.info.recommendation.suggestedEndTime,
+                      true
                     )}
                 .
               </span>

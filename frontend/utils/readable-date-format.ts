@@ -6,9 +6,12 @@ import {
   differenceInDays
 } from "date-fns";
 
-export function readableDateFormat(date: string | Date): string {
+export function readableDateFormat(
+  date: string | Date,
+  includeConjunction = false
+): string {
   const dateObj = new Date(date);
-  const timeFormat = " 'at' h:mm a";
+  const timeFormat = includeConjunction ? " 'at' h:mm a" : " h:mm a";
 
   if (isToday(dateObj)) {
     return `today${timeFormat ? formatDate(dateObj, timeFormat) : ""}`;

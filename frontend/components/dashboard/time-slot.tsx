@@ -1,8 +1,10 @@
 import { ClockIcon } from "lucide-react";
 import { Card, CardContent, CardFooter } from "../ui/card";
-import { formatDate, intervalToDuration } from "date-fns";
+import { formatDate, formatDuration, intervalToDuration } from "date-fns";
 import { EditAvailabilityModal } from "@/app/painter/modals/edit-availability";
 import { DeleteAvailabilityModal } from "@/app/painter/modals/delete-availability";
+import { sameDates } from "@/utils/same-dates";
+import { readableDateFormat } from "@/utils/readable-date-format";
 
 interface TimeSlotProps {
   id: string;
@@ -14,6 +16,17 @@ const TimeSlot = ({ id, start_time, end_time }: TimeSlotProps) => {
   const startDate = new Date(start_time);
   const endDate = new Date(end_time);
   const duration = intervalToDuration({ start: startDate, end: endDate });
+
+  const durationRender = sameDates(startDate, endDate) ? (
+    <>
+      {formatDate(startDate, "hh:mm a")} &ndash;{" "}
+      {formatDate(endDate, "hh:mm a")}
+    </>
+  ) : (
+    <>
+      {readableDateFormat(startDate)} &ndash; {readableDateFormat(endDate)}
+    </>
+  );
 
   return (
     <Card className="w-full sm:w-fit">
@@ -34,13 +47,10 @@ const TimeSlot = ({ id, start_time, end_time }: TimeSlotProps) => {
             </h3>
             <div className="flex items-center text-gray-600 mt-1">
               <ClockIcon className="w-3 h-3 mr-1" />
-              <span className="font-sans text-sm">
-                {formatDate(startDate, "hh:mm a")} &ndash;{" "}
-                {formatDate(endDate, "hh:mm a")}
-              </span>
+              <span className="font-sans text-sm">{durationRender}</span>
             </div>
             <p className="inline-flex mt-2 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              {duration.hours} hours
+              {formatDuration(duration)}
             </p>
           </div>
         </div>
