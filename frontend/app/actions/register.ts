@@ -1,5 +1,4 @@
 import { axiosInstance } from "@/app/lib/axios-instance";
-import { AccountType } from "@/app/types";
 import { z } from "zod";
 
 export const RegisterFormSchema = z.object({
@@ -53,7 +52,7 @@ export async function register(state: FormState, formData: FormData) {
     lastName: formData.get("lastName"),
     email: formData.get("email"),
     password: formData.get("password"),
-    accountType: AccountType.PAINTER
+    accountType: formData.get("accountType")
   };
 
   try {

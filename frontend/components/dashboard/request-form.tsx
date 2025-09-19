@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { forwardRef, useActionState, useEffect } from "react";
 import { LoaderIcon } from "lucide-react";
-import { bookSlot } from "@/app/customer/create/action";
+import { bookSlot } from "@/app/actions/book-slot";
 import { Button } from "../ui/button";
 import TimeSelectorField from "../form/time-selector-field";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import PainterLoginForm from "./form";
+import LoginForm from "@/components/form/login";
 
 const LoginPainter = () => {
   return (
@@ -12,7 +12,7 @@ const LoginPainter = () => {
         <p className="font-sans text-gray-600 mb-8">
           Login to see who&apos;s requesting your services
         </p>
-        <PainterLoginForm />
+        <LoginForm />
       </CardContent>
       <CardFooter className="flex-col gap-2">
         <p>

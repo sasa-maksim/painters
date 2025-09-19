@@ -5,7 +5,7 @@ import { LoaderIcon, XCircleIcon } from "lucide-react";
 import {
   createAvailability,
   editAvailability
-} from "@/app/painter/create/action";
+} from "@/app/actions/availability";
 import { Button } from "../ui/button";
 import TimeSelectorField from "../form/time-selector-field";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
@@ -68,7 +68,7 @@ const AvailabilityForm = forwardRef<HTMLFormElement, AvailabilityFormProps>(
           </Alert>
         )}
         <form className="space-y-4" ref={ref} action={action}>
-          <input type="text" hidden name="id" value={id} />
+          <input type="text" name="id" defaultValue={id} hidden />
           <TimeSelectorField
             name="startTime"
             legend="Start time"

@@ -1,23 +1,28 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { InfoIcon, LoaderIcon, XCircleIcon } from "lucide-react";
 import PasswordField from "@/components/form/password-field";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { register } from "./action";
+import { LoaderIcon } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useActionState, useEffect } from "react";
+import { register } from "../../app/actions/register";
+import { AccountType } from "@/app/types";
 
-const PainterRegisterForm = () => {
+const RegisterForm = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [state, action, pending] = useActionState(register, undefined);
+  const accountType = pathname.startsWith("/customer")
+    ? AccountType.CUSTOMER
+    : AccountType.PAINTER;
 
   useEffect(() => {
     if (state?.status === "success") {
-      router.push("/painter/login?success=true");
+      router.push(`/${accountType.toLowerCase()}/login?success=true`);
     }
   }, [state]);
 
@@ -35,13 +40,17 @@ const PainterRegisterForm = () => {
       )}
       {state?.message && state?.status === "error" && (
         <Alert variant="destructive" className="mb-6">
-          <XCircleIcon />
-          <AlertTitle>Login Failed!</AlertTitle>
-          <AlertDescription>{state.message}</AlertDescription>
+          <AlertTitle>{state.message}</AlertTitle>
         </Alert>
       )}
       <form action={action}>
         <div className="flex flex-col space-y-6">
+          <input
+            type="text"
+            name="accountType"
+            defaultValue={accountType}
+            hidden
+          />
           <div className="flex flex-col items-start space-y-2 font-mono">
             <Label htmlFor="first_name">First name</Label>
             <Input
@@ -76,8 +85,8 @@ const PainterRegisterForm = () => {
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
-              name="email"
               type="email"
+              name="email"
               placeholder="john@example.com"
               required
             />
@@ -89,7 +98,7 @@ const PainterRegisterForm = () => {
           </div>
           <PasswordField errors={state?.errors?.password || []} />
         </div>
-        <Button className="w-full mt-6" disabled={pending}>
+        <Button className="w-full mt-6">
           {pending && <LoaderIcon />} Sign up
         </Button>
       </form>
@@ -97,4 +106,4 @@ const PainterRegisterForm = () => {
   );
 };
 
-export default PainterRegisterForm;
+export default RegisterForm;

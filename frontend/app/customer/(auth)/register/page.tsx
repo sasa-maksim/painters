@@ -1,6 +1,6 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import CustomerRegisterForm from "./form";
 import Link from "next/link";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import RegisterForm from "../../../../components/form/register";
 
 const RegisterCustomer = () => {
   return (
@@ -13,7 +13,7 @@ const RegisterCustomer = () => {
       </p>
       <Card className="w-full max-w-sm">
         <CardContent className="p-6">
-          <CustomerRegisterForm />
+          <RegisterForm />
         </CardContent>
         <CardFooter className="flex-col gap-2">
           <p>

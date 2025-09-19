@@ -2,22 +2,27 @@
 
 import { useActionState, useEffect } from "react";
 import { LoaderIcon, XCircleIcon } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import PasswordField from "@/components/form/password-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { login } from "./action";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AccountType } from "@/app/types";
+import { login } from "@/app/actions/login";
 
-const PainterLoginForm = () => {
+const LoginForm = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [state, action, pending] = useActionState(login, undefined);
+  const accountType = pathname.startsWith("/customer")
+    ? AccountType.CUSTOMER
+    : AccountType.PAINTER;
 
   useEffect(() => {
     if (state?.status === "success") {
-      router.push("/painter");
+      router.push(`/${accountType.toLowerCase()}`);
     }
   }, [state]);
 
@@ -42,12 +47,18 @@ const PainterLoginForm = () => {
       )}
       <form action={action}>
         <div className="flex flex-col space-y-6">
+          <input
+            type="text"
+            name="accountType"
+            defaultValue={accountType}
+            hidden
+          />
           <div className="flex flex-col items-start space-y-2 font-mono">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
-              name="email"
               type="email"
+              name="email"
               placeholder="john@example.com"
               required
             />
@@ -67,4 +78,4 @@ const PainterLoginForm = () => {
   );
 };
 
-export default PainterLoginForm;
+export default LoginForm;
