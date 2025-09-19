@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { LoaderIcon, XCircleIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import PasswordField from "@/components/form/password-field";
@@ -20,11 +20,23 @@ const LoginForm = () => {
     ? AccountType.CUSTOMER
     : AccountType.PAINTER;
 
+  const [values, setValues] = useState({
+    email: "",
+    password: ""
+  });
+
   useEffect(() => {
     if (state?.status === "success") {
       router.push(`/${accountType.toLowerCase()}`);
     }
   }, [state]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues(prevValues => ({
+      ...prevValues,
+      [event.target.name]: event.target.value
+    }));
+  };
 
   return (
     <>
@@ -60,6 +72,8 @@ const LoginForm = () => {
               type="email"
               name="email"
               placeholder="john@example.com"
+              value={values.email}
+              onChange={handleInputChange}
               required
             />
             {state?.errors?.email && (
@@ -68,9 +82,16 @@ const LoginForm = () => {
               </small>
             )}
           </div>
-          <PasswordField errors={state?.errors?.password || []} />
+          <PasswordField
+            errors={state?.errors?.password || []}
+            value={values.password}
+            onChange={handleInputChange}
+          />
         </div>
-        <Button className="w-full mt-6" disabled={pending}>
+        <Button
+          className="w-full mt-6"
+          disabled={pending || state?.status === "success"}
+        >
           {pending && <LoaderIcon />} Sign in
         </Button>
       </form>

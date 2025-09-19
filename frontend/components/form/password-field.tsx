@@ -6,7 +6,8 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import type { CheckedState } from "@radix-ui/react-checkbox";
 
-interface PasswordFieldProps extends React.HTMLAttributes<HTMLDivElement> {
+interface PasswordFieldProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   formControlProps?: React.HTMLAttributes<HTMLDivElement>;
   labelProps?: React.LabelHTMLAttributes<HTMLLabelElement>;
   errors: string[];

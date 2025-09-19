@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoaderIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { register } from "../../app/actions/register";
 import { AccountType } from "@/app/types";
 
@@ -20,11 +20,25 @@ const RegisterForm = () => {
     ? AccountType.CUSTOMER
     : AccountType.PAINTER;
 
+  const [values, setValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: ""
+  });
+
   useEffect(() => {
     if (state?.status === "success") {
       router.push(`/${accountType.toLowerCase()}/login?success=true`);
     }
   }, [state]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues(prevValues => ({
+      ...prevValues,
+      [event.target.name]: event.target.value
+    }));
+  };
 
   return (
     <>
@@ -58,6 +72,8 @@ const RegisterForm = () => {
               name="firstName"
               type="text"
               placeholder="John"
+              value={values.firstName}
+              onChange={handleInputChange}
               required
             />
             {state?.errors?.firstName && (
@@ -73,6 +89,8 @@ const RegisterForm = () => {
               name="lastName"
               type="text"
               placeholder="John"
+              value={values.lastName}
+              onChange={handleInputChange}
               required
             />
             {state?.errors?.lastName && (
@@ -88,6 +106,8 @@ const RegisterForm = () => {
               type="email"
               name="email"
               placeholder="john@example.com"
+              value={values.email}
+              onChange={handleInputChange}
               required
             />
             {state?.errors?.email && (
@@ -96,9 +116,16 @@ const RegisterForm = () => {
               </small>
             )}
           </div>
-          <PasswordField errors={state?.errors?.password || []} />
+          <PasswordField
+            errors={state?.errors?.password || []}
+            value={values.password}
+            onChange={handleInputChange}
+          />
         </div>
-        <Button className="w-full mt-6">
+        <Button
+          className="w-full mt-6"
+          disabled={pending || state?.status === "success"}
+        >
           {pending && <LoaderIcon />} Sign up
         </Button>
       </form>
